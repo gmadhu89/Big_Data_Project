@@ -1,0 +1,1413 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flowController encoding-version="1.4">
+  <maxTimerDrivenThreadCount>10</maxTimerDrivenThreadCount>
+  <maxEventDrivenThreadCount>1</maxEventDrivenThreadCount>
+  <registries/>
+  <parameterContexts/>
+  <rootGroup>
+    <id>567264e6-0175-1000-96f3-0123db40889f</id>
+    <name>NiFi Flow</name>
+    <position x="0.0" y="0.0"/>
+    <comment/>
+    <processor>
+      <id>5231a285-0176-1000-e956-e5a4d550dd7f</id>
+      <name>ReplaceText</name>
+      <position x="3968.0" y="184.0"/>
+      <styles/>
+      <comment/>
+      <class>org.apache.nifi.processors.standard.ReplaceText</class>
+      <bundle>
+        <group>org.apache.nifi</group>
+        <artifact>nifi-standard-nar</artifact>
+        <version>1.10.0</version>
+      </bundle>
+      <maxConcurrentTasks>1</maxConcurrentTasks>
+      <schedulingPeriod>0 sec</schedulingPeriod>
+      <penalizationPeriod>30 sec</penalizationPeriod>
+      <yieldPeriod>1 sec</yieldPeriod>
+      <bulletinLevel>WARN</bulletinLevel>
+      <lossTolerant>false</lossTolerant>
+      <scheduledState>STOPPED</scheduledState>
+      <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+      <executionNode>ALL</executionNode>
+      <runDurationNanos>0</runDurationNanos>
+      <property>
+        <name>Regular Expression</name>
+        <value>(?s)(^.*$)</value>
+      </property>
+      <property>
+        <name>Replacement Value</name>
+        <value>${Country_code},${Country_name},${Country_total_deaths},${Extracted_timestamp},${Percent_Total_Deaths},${Percent_Total_Recovered}</value>
+      </property>
+      <property>
+        <name>Character Set</name>
+        <value>UTF-8</value>
+      </property>
+      <property>
+        <name>Maximum Buffer Size</name>
+        <value>1 MB</value>
+      </property>
+      <property>
+        <name>Replacement Strategy</name>
+        <value>Regex Replace</value>
+      </property>
+      <property>
+        <name>Evaluation Mode</name>
+        <value>Entire text</value>
+      </property>
+      <property>
+        <name>Line-by-Line Evaluation Mode</name>
+        <value>All</value>
+      </property>
+      <autoTerminatedRelationship>failure</autoTerminatedRelationship>
+    </processor>
+    <processor>
+      <id>0900ca80-0176-1000-2bf3-040a173d147e</id>
+      <name>ConvertToUpperCase</name>
+      <position x="1608.0" y="808.0"/>
+      <styles/>
+      <comment/>
+      <class>org.apache.nifi.processors.attributes.UpdateAttribute</class>
+      <bundle>
+        <group>org.apache.nifi</group>
+        <artifact>nifi-update-attribute-nar</artifact>
+        <version>1.10.0</version>
+      </bundle>
+      <maxConcurrentTasks>1</maxConcurrentTasks>
+      <schedulingPeriod>0 sec</schedulingPeriod>
+      <penalizationPeriod>30 sec</penalizationPeriod>
+      <yieldPeriod>1 sec</yieldPeriod>
+      <bulletinLevel>WARN</bulletinLevel>
+      <lossTolerant>false</lossTolerant>
+      <scheduledState>STOPPED</scheduledState>
+      <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+      <executionNode>ALL</executionNode>
+      <runDurationNanos>0</runDurationNanos>
+      <property>
+        <name>Delete Attributes Expression</name>
+      </property>
+      <property>
+        <name>Store State</name>
+        <value>Do not store state</value>
+      </property>
+      <property>
+        <name>Stateful Variables Initial Value</name>
+      </property>
+      <property>
+        <name>canonical-value-lookup-cache-size</name>
+        <value>100</value>
+      </property>
+      <property>
+        <name>Country_Code_Upper</name>
+        <value>${Country_Code:toUpper()}</value>
+      </property>
+    </processor>
+    <processor>
+      <id>0f8339ec-0176-1000-a621-bbf34f99b7c2</id>
+      <name>PublishKafka</name>
+      <position x="96.0" y="632.0"/>
+      <styles/>
+      <comment/>
+      <class>org.apache.nifi.processors.kafka.pubsub.PublishKafka</class>
+      <bundle>
+        <group>org.apache.nifi</group>
+        <artifact>nifi-kafka-0-9-nar</artifact>
+        <version>1.10.0</version>
+      </bundle>
+      <maxConcurrentTasks>1</maxConcurrentTasks>
+      <schedulingPeriod>0 sec</schedulingPeriod>
+      <penalizationPeriod>30 sec</penalizationPeriod>
+      <yieldPeriod>1 sec</yieldPeriod>
+      <bulletinLevel>WARN</bulletinLevel>
+      <lossTolerant>false</lossTolerant>
+      <scheduledState>STOPPED</scheduledState>
+      <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+      <executionNode>ALL</executionNode>
+      <runDurationNanos>0</runDurationNanos>
+      <property>
+        <name>bootstrap.servers</name>
+        <value>localhost:9092</value>
+      </property>
+      <property>
+        <name>security.protocol</name>
+        <value>PLAINTEXT</value>
+      </property>
+      <property>
+        <name>sasl.kerberos.service.name</name>
+      </property>
+      <property>
+        <name>ssl.context.service</name>
+      </property>
+      <property>
+        <name>topic</name>
+        <value>dezyre_corona_data</value>
+      </property>
+      <property>
+        <name>acks</name>
+        <value>0</value>
+      </property>
+      <property>
+        <name>kafka-key</name>
+      </property>
+      <property>
+        <name>key-attribute-encoding</name>
+        <value>utf-8</value>
+      </property>
+      <property>
+        <name>message-demarcator</name>
+      </property>
+      <property>
+        <name>max.request.size</name>
+        <value>1 MB</value>
+      </property>
+      <property>
+        <name>ack.wait.time</name>
+        <value>5 secs</value>
+      </property>
+      <property>
+        <name>max.block.ms</name>
+        <value>5 sec</value>
+      </property>
+      <property>
+        <name>partitioner.class</name>
+        <value>org.apache.kafka.clients.producer.internals.DefaultPartitioner</value>
+      </property>
+      <property>
+        <name>compression.type</name>
+        <value>none</value>
+      </property>
+      <autoTerminatedRelationship>success</autoTerminatedRelationship>
+      <autoTerminatedRelationship>failure</autoTerminatedRelationship>
+    </processor>
+    <processor>
+      <id>0440b2a4-0176-1000-a5ab-0a4a7cd94ec3</id>
+      <name>SplitJson</name>
+      <position x="1360.0" y="504.0"/>
+      <styles/>
+      <comment/>
+      <class>org.apache.nifi.processors.standard.SplitJson</class>
+      <bundle>
+        <group>org.apache.nifi</group>
+        <artifact>nifi-standard-nar</artifact>
+        <version>1.10.0</version>
+      </bundle>
+      <maxConcurrentTasks>1</maxConcurrentTasks>
+      <schedulingPeriod>0 sec</schedulingPeriod>
+      <penalizationPeriod>30 sec</penalizationPeriod>
+      <yieldPeriod>1 sec</yieldPeriod>
+      <bulletinLevel>WARN</bulletinLevel>
+      <lossTolerant>false</lossTolerant>
+      <scheduledState>STOPPED</scheduledState>
+      <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+      <executionNode>ALL</executionNode>
+      <runDurationNanos>0</runDurationNanos>
+      <property>
+        <name>JsonPath Expression</name>
+        <value>$.Countries</value>
+      </property>
+      <property>
+        <name>Null Value Representation</name>
+        <value>empty string</value>
+      </property>
+      <autoTerminatedRelationship>failure</autoTerminatedRelationship>
+      <autoTerminatedRelationship>original</autoTerminatedRelationship>
+    </processor>
+    <processor>
+      <id>0947d956-0176-1000-d9d0-d0aa80c63973</id>
+      <name>ReplaceText</name>
+      <position x="976.0" y="728.0"/>
+      <styles/>
+      <comment/>
+      <class>org.apache.nifi.processors.standard.ReplaceText</class>
+      <bundle>
+        <group>org.apache.nifi</group>
+        <artifact>nifi-standard-nar</artifact>
+        <version>1.10.0</version>
+      </bundle>
+      <maxConcurrentTasks>1</maxConcurrentTasks>
+      <schedulingPeriod>0 sec</schedulingPeriod>
+      <penalizationPeriod>30 sec</penalizationPeriod>
+      <yieldPeriod>1 sec</yieldPeriod>
+      <bulletinLevel>WARN</bulletinLevel>
+      <lossTolerant>false</lossTolerant>
+      <scheduledState>STOPPED</scheduledState>
+      <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+      <executionNode>ALL</executionNode>
+      <runDurationNanos>0</runDurationNanos>
+      <property>
+        <name>Regular Expression</name>
+        <value>(?s)(^.*$)</value>
+      </property>
+      <property>
+        <name>Replacement Value</name>
+        <value>${Country},${Country_Code_Upper},${Country_New_Confirmed},${Country_New_Deaths},${Country_New_Recovered},${Country_Total_Confirmed},${Country_Total_Deaths},${Country_Total_Recovered},${Extracted_TimeStamp},${Global_New_Confirmed},${Global_New_Deaths},${Global_New_Recovered},${Global_Total_COnfirmed},${Global_Total_Deaths},${Global_Total_Recovered}</value>
+      </property>
+      <property>
+        <name>Character Set</name>
+        <value>UTF-8</value>
+      </property>
+      <property>
+        <name>Maximum Buffer Size</name>
+        <value>1 MB</value>
+      </property>
+      <property>
+        <name>Replacement Strategy</name>
+        <value>Regex Replace</value>
+      </property>
+      <property>
+        <name>Evaluation Mode</name>
+        <value>Entire text</value>
+      </property>
+      <property>
+        <name>Line-by-Line Evaluation Mode</name>
+        <value>All</value>
+      </property>
+      <autoTerminatedRelationship>failure</autoTerminatedRelationship>
+    </processor>
+    <processor>
+      <id>525449e8-0176-1000-4ad2-f50ce644e679</id>
+      <name>MergeContent</name>
+      <position x="4408.0" y="192.0"/>
+      <styles/>
+      <comment/>
+      <class>org.apache.nifi.processors.standard.MergeContent</class>
+      <bundle>
+        <group>org.apache.nifi</group>
+        <artifact>nifi-standard-nar</artifact>
+        <version>1.10.0</version>
+      </bundle>
+      <maxConcurrentTasks>1</maxConcurrentTasks>
+      <schedulingPeriod>0 sec</schedulingPeriod>
+      <penalizationPeriod>30 sec</penalizationPeriod>
+      <yieldPeriod>1 sec</yieldPeriod>
+      <bulletinLevel>WARN</bulletinLevel>
+      <lossTolerant>false</lossTolerant>
+      <scheduledState>STOPPED</scheduledState>
+      <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+      <executionNode>ALL</executionNode>
+      <runDurationNanos>0</runDurationNanos>
+      <property>
+        <name>Merge Strategy</name>
+        <value>Bin-Packing Algorithm</value>
+      </property>
+      <property>
+        <name>Merge Format</name>
+        <value>Binary Concatenation</value>
+      </property>
+      <property>
+        <name>Attribute Strategy</name>
+        <value>Keep Only Common Attributes</value>
+      </property>
+      <property>
+        <name>Correlation Attribute Name</name>
+      </property>
+      <property>
+        <name>mergecontent-metadata-strategy</name>
+        <value>Do Not Merge Uncommon Metadata</value>
+      </property>
+      <property>
+        <name>Minimum Number of Entries</name>
+        <value>1</value>
+      </property>
+      <property>
+        <name>Maximum Number of Entries</name>
+        <value>1000</value>
+      </property>
+      <property>
+        <name>Minimum Group Size</name>
+        <value>0 B</value>
+      </property>
+      <property>
+        <name>Maximum Group Size</name>
+      </property>
+      <property>
+        <name>Max Bin Age</name>
+      </property>
+      <property>
+        <name>Maximum number of Bins</name>
+        <value>5</value>
+      </property>
+      <property>
+        <name>Delimiter Strategy</name>
+        <value>Text</value>
+      </property>
+      <property>
+        <name>Header File</name>
+      </property>
+      <property>
+        <name>Footer File</name>
+      </property>
+      <property>
+        <name>Demarcator File</name>
+        <value>${literal('\n'):unescapeXml()}</value>
+      </property>
+      <property>
+        <name>Compression Level</name>
+        <value>1</value>
+      </property>
+      <property>
+        <name>Keep Path</name>
+        <value>false</value>
+      </property>
+      <property>
+        <name>Tar Modified Time</name>
+        <value>${file.lastModifiedTime}</value>
+      </property>
+      <autoTerminatedRelationship>failure</autoTerminatedRelationship>
+      <autoTerminatedRelationship>original</autoTerminatedRelationship>
+    </processor>
+    <processor>
+      <id>5227e73b-0176-1000-dfd8-0d679182baac</id>
+      <name>EvaluateJsonPath</name>
+      <position x="3504.0" y="184.0"/>
+      <styles/>
+      <comment/>
+      <class>org.apache.nifi.processors.standard.EvaluateJsonPath</class>
+      <bundle>
+        <group>org.apache.nifi</group>
+        <artifact>nifi-standard-nar</artifact>
+        <version>1.10.0</version>
+      </bundle>
+      <maxConcurrentTasks>1</maxConcurrentTasks>
+      <schedulingPeriod>0 sec</schedulingPeriod>
+      <penalizationPeriod>30 sec</penalizationPeriod>
+      <yieldPeriod>1 sec</yieldPeriod>
+      <bulletinLevel>WARN</bulletinLevel>
+      <lossTolerant>false</lossTolerant>
+      <scheduledState>STOPPED</scheduledState>
+      <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+      <executionNode>ALL</executionNode>
+      <runDurationNanos>0</runDurationNanos>
+      <property>
+        <name>Destination</name>
+        <value>flowfile-attribute</value>
+      </property>
+      <property>
+        <name>Return Type</name>
+        <value>auto-detect</value>
+      </property>
+      <property>
+        <name>Path Not Found Behavior</name>
+        <value>ignore</value>
+      </property>
+      <property>
+        <name>Null Value Representation</name>
+        <value>empty string</value>
+      </property>
+      <property>
+        <name>Extracted_timestamp</name>
+        <value>$.Extracted_timestamp</value>
+      </property>
+      <property>
+        <name>Percent_Total_Deaths</name>
+        <value>$.Percent_Total_Deaths</value>
+      </property>
+      <property>
+        <name>Country_total_deaths</name>
+        <value>$.Country_total_deaths</value>
+      </property>
+      <property>
+        <name>Country_Code</name>
+        <value>$.Country_code</value>
+      </property>
+      <property>
+        <name>Country_name</name>
+        <value>$.Country_name</value>
+      </property>
+      <property>
+        <name>Percent_Total_Recovered</name>
+        <value>$.Percent_Total_Recovered</value>
+      </property>
+      <autoTerminatedRelationship>failure</autoTerminatedRelationship>
+      <autoTerminatedRelationship>unmatched</autoTerminatedRelationship>
+    </processor>
+    <processor>
+      <id>08ea52bd-0176-1000-3fad-1b81e2a812ce</id>
+      <name>EvaluateJsonPath</name>
+      <position x="2160.0" y="504.0"/>
+      <styles/>
+      <comment/>
+      <class>org.apache.nifi.processors.standard.EvaluateJsonPath</class>
+      <bundle>
+        <group>org.apache.nifi</group>
+        <artifact>nifi-standard-nar</artifact>
+        <version>1.10.0</version>
+      </bundle>
+      <maxConcurrentTasks>1</maxConcurrentTasks>
+      <schedulingPeriod>0 sec</schedulingPeriod>
+      <penalizationPeriod>30 sec</penalizationPeriod>
+      <yieldPeriod>1 sec</yieldPeriod>
+      <bulletinLevel>WARN</bulletinLevel>
+      <lossTolerant>false</lossTolerant>
+      <scheduledState>STOPPED</scheduledState>
+      <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+      <executionNode>ALL</executionNode>
+      <runDurationNanos>0</runDurationNanos>
+      <property>
+        <name>Destination</name>
+        <value>flowfile-attribute</value>
+      </property>
+      <property>
+        <name>Return Type</name>
+        <value>auto-detect</value>
+      </property>
+      <property>
+        <name>Path Not Found Behavior</name>
+        <value>ignore</value>
+      </property>
+      <property>
+        <name>Null Value Representation</name>
+        <value>empty string</value>
+      </property>
+      <property>
+        <name>Country_Total_Confirmed</name>
+        <value>$.TotalConfirmed</value>
+      </property>
+      <property>
+        <name>Country_New_Deaths</name>
+        <value>$.NewDeaths</value>
+      </property>
+      <property>
+        <name>Country</name>
+        <value>$.Country</value>
+      </property>
+      <property>
+        <name>Country_Code</name>
+        <value>$.CountryCode</value>
+      </property>
+      <property>
+        <name>Country_Total_Deaths</name>
+        <value>$.TotalDeaths</value>
+      </property>
+      <property>
+        <name>Country_New_Confirmed</name>
+        <value>$.NewConfirmed</value>
+      </property>
+      <property>
+        <name>Country_New_Recovered</name>
+        <value>$.NewRecovered</value>
+      </property>
+      <property>
+        <name>Country_Total_Recovered</name>
+        <value>$.TotalRecovered</value>
+      </property>
+      <property>
+        <name>Extracted_TimeStamp</name>
+        <value>$.Date</value>
+      </property>
+      <autoTerminatedRelationship>failure</autoTerminatedRelationship>
+      <autoTerminatedRelationship>unmatched</autoTerminatedRelationship>
+    </processor>
+    <processor>
+      <id>fa95593f-0175-1000-df7e-04a6bea4dda6</id>
+      <name>InvokeHTTP</name>
+      <position x="640.0" y="272.0"/>
+      <styles/>
+      <comment/>
+      <class>org.apache.nifi.processors.standard.InvokeHTTP</class>
+      <bundle>
+        <group>org.apache.nifi</group>
+        <artifact>nifi-standard-nar</artifact>
+        <version>1.10.0</version>
+      </bundle>
+      <maxConcurrentTasks>1</maxConcurrentTasks>
+      <schedulingPeriod>0 sec</schedulingPeriod>
+      <penalizationPeriod>30 sec</penalizationPeriod>
+      <yieldPeriod>1 sec</yieldPeriod>
+      <bulletinLevel>WARN</bulletinLevel>
+      <lossTolerant>false</lossTolerant>
+      <scheduledState>STOPPED</scheduledState>
+      <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+      <executionNode>ALL</executionNode>
+      <runDurationNanos>0</runDurationNanos>
+      <property>
+        <name>HTTP Method</name>
+        <value>GET</value>
+      </property>
+      <property>
+        <name>Remote URL</name>
+        <value>https://api.covid19api.com/summary</value>
+      </property>
+      <property>
+        <name>SSL Context Service</name>
+      </property>
+      <property>
+        <name>Connection Timeout</name>
+        <value>5 secs</value>
+      </property>
+      <property>
+        <name>Read Timeout</name>
+        <value>15 secs</value>
+      </property>
+      <property>
+        <name>Include Date Header</name>
+        <value>True</value>
+      </property>
+      <property>
+        <name>Follow Redirects</name>
+        <value>True</value>
+      </property>
+      <property>
+        <name>Attributes to Send</name>
+      </property>
+      <property>
+        <name>Basic Authentication Username</name>
+      </property>
+      <property>
+        <name>Basic Authentication Password</name>
+      </property>
+      <property>
+        <name>proxy-configuration-service</name>
+      </property>
+      <property>
+        <name>Proxy Host</name>
+      </property>
+      <property>
+        <name>Proxy Port</name>
+      </property>
+      <property>
+        <name>Proxy Type</name>
+        <value>http</value>
+      </property>
+      <property>
+        <name>invokehttp-proxy-user</name>
+      </property>
+      <property>
+        <name>invokehttp-proxy-password</name>
+      </property>
+      <property>
+        <name>Put Response Body In Attribute</name>
+      </property>
+      <property>
+        <name>Max Length To Put In Attribute</name>
+        <value>256</value>
+      </property>
+      <property>
+        <name>Digest Authentication</name>
+        <value>false</value>
+      </property>
+      <property>
+        <name>Always Output Response</name>
+        <value>true</value>
+      </property>
+      <property>
+        <name>Add Response Headers to Request</name>
+        <value>false</value>
+      </property>
+      <property>
+        <name>Content-Type</name>
+        <value>application/json</value>
+      </property>
+      <property>
+        <name>send-message-body</name>
+        <value>true</value>
+      </property>
+      <property>
+        <name>Use Chunked Encoding</name>
+        <value>false</value>
+      </property>
+      <property>
+        <name>Penalize on "No Retry"</name>
+        <value>false</value>
+      </property>
+      <property>
+        <name>use-etag</name>
+        <value>false</value>
+      </property>
+      <property>
+        <name>etag-max-cache-size</name>
+        <value>10MB</value>
+      </property>
+      <autoTerminatedRelationship>Failure</autoTerminatedRelationship>
+      <autoTerminatedRelationship>Retry</autoTerminatedRelationship>
+      <autoTerminatedRelationship>No Retry</autoTerminatedRelationship>
+      <autoTerminatedRelationship>Response</autoTerminatedRelationship>
+    </processor>
+    <processor>
+      <id>fa819b9b-0175-1000-5a0b-abb6605a35a8</id>
+      <name>GenerateFlowFile</name>
+      <position x="640.0" y="24.0"/>
+      <styles/>
+      <comment/>
+      <class>org.apache.nifi.processors.standard.GenerateFlowFile</class>
+      <bundle>
+        <group>org.apache.nifi</group>
+        <artifact>nifi-standard-nar</artifact>
+        <version>1.10.0</version>
+      </bundle>
+      <maxConcurrentTasks>1</maxConcurrentTasks>
+      <schedulingPeriod>900000000000000 sec</schedulingPeriod>
+      <penalizationPeriod>30 sec</penalizationPeriod>
+      <yieldPeriod>1 sec</yieldPeriod>
+      <bulletinLevel>WARN</bulletinLevel>
+      <lossTolerant>false</lossTolerant>
+      <scheduledState>STOPPED</scheduledState>
+      <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+      <executionNode>ALL</executionNode>
+      <runDurationNanos>0</runDurationNanos>
+      <property>
+        <name>File Size</name>
+        <value>0B</value>
+      </property>
+      <property>
+        <name>Batch Size</name>
+        <value>1</value>
+      </property>
+      <property>
+        <name>Data Format</name>
+        <value>Text</value>
+      </property>
+      <property>
+        <name>Unique FlowFiles</name>
+        <value>false</value>
+      </property>
+      <property>
+        <name>generate-ff-custom-text</name>
+        <value>{"Message":"","Global":{"NewConfirmed":581062,"TotalConfirmed":60964850,"NewDeaths":10739,"TotalDeaths":1431955,"NewRecovered":365058,"TotalRecovered":39062353},"Countries":[{"Country":"Afghanistan","CountryCode":"AF","Slug":"afghanistan","NewConfirmed":226,"TotalConfirmed":45716,"NewDeaths":12,"TotalDeaths":1737,"NewRecovered":87,"TotalRecovered":36232,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Albania","CountryCode":"AL","Slug":"albania","NewConfirmed":656,"TotalConfirmed":35600,"NewDeaths":10,"TotalDeaths":753,"NewRecovered":321,"TotalRecovered":17352,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Algeria","CountryCode":"DZ","Slug":"algeria","NewConfirmed":1085,"TotalConfirmed":79110,"NewDeaths":23,"TotalDeaths":2352,"NewRecovered":622,"TotalRecovered":51334,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Andorra","CountryCode":"AD","Slug":"andorra","NewConfirmed":106,"TotalConfirmed":6534,"NewDeaths":0,"TotalDeaths":76,"NewRecovered":107,"TotalRecovered":5649,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Angola","CountryCode":"AO","Slug":"angola","NewConfirmed":99,"TotalConfirmed":14920,"NewDeaths":1,"TotalDeaths":341,"NewRecovered":100,"TotalRecovered":7617,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Antigua and Barbuda","CountryCode":"AG","Slug":"antigua-and-barbuda","NewConfirmed":1,"TotalConfirmed":141,"NewDeaths":0,"TotalDeaths":4,"NewRecovered":1,"TotalRecovered":130,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Argentina","CountryCode":"AR","Slug":"argentina","NewConfirmed":9043,"TotalConfirmed":1399431,"NewDeaths":227,"TotalDeaths":37941,"NewRecovered":9378,"TotalRecovered":1226662,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Armenia","CountryCode":"AM","Slug":"armenia","NewConfirmed":1785,"TotalConfirmed":130870,"NewDeaths":28,"TotalDeaths":2068,"NewRecovered":2142,"TotalRecovered":103055,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Australia","CountryCode":"AU","Slug":"australia","NewConfirmed":8,"TotalConfirmed":27873,"NewDeaths":0,"TotalDeaths":907,"NewRecovered":23,"TotalRecovered":25570,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Austria","CountryCode":"AT","Slug":"austria","NewConfirmed":5526,"TotalConfirmed":266038,"NewDeaths":106,"TotalDeaths":2773,"NewRecovered":7283,"TotalRecovered":196342,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Azerbaijan","CountryCode":"AZ","Slug":"azerbaijan","NewConfirmed":3705,"TotalConfirmed":106101,"NewDeaths":32,"TotalDeaths":1256,"NewRecovered":1609,"TotalRecovered":68572,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Bahamas","CountryCode":"BS","Slug":"bahamas","NewConfirmed":13,"TotalConfirmed":7482,"NewDeaths":0,"TotalDeaths":163,"NewRecovered":56,"TotalRecovered":5789,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Bahrain","CountryCode":"BH","Slug":"bahrain","NewConfirmed":162,"TotalConfirmed":86347,"NewDeaths":1,"TotalDeaths":341,"NewRecovered":175,"TotalRecovered":84510,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Bangladesh","CountryCode":"BD","Slug":"bangladesh","NewConfirmed":2292,"TotalConfirmed":456438,"NewDeaths":37,"TotalDeaths":6524,"NewRecovered":2274,"TotalRecovered":371453,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Barbados","CountryCode":"BB","Slug":"barbados","NewConfirmed":3,"TotalConfirmed":266,"NewDeaths":0,"TotalDeaths":7,"NewRecovered":3,"TotalRecovered":246,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Belarus","CountryCode":"BY","Slug":"belarus","NewConfirmed":1563,"TotalConfirmed":130012,"NewDeaths":9,"TotalDeaths":1128,"NewRecovered":1317,"TotalRecovered":108769,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Belgium","CountryCode":"BE","Slug":"belgium","NewConfirmed":2565,"TotalConfirmed":567532,"NewDeaths":142,"TotalDeaths":16219,"NewRecovered":0,"TotalRecovered":0,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Belize","CountryCode":"BZ","Slug":"belize","NewConfirmed":92,"TotalConfirmed":5515,"NewDeaths":2,"TotalDeaths":131,"NewRecovered":35,"TotalRecovered":3021,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Benin","CountryCode":"BJ","Slug":"benin","NewConfirmed":0,"TotalConfirmed":2974,"NewDeaths":0,"TotalDeaths":43,"NewRecovered":0,"TotalRecovered":2579,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Bhutan","CountryCode":"BT","Slug":"bhutan","NewConfirmed":3,"TotalConfirmed":389,"NewDeaths":0,"TotalDeaths":0,"NewRecovered":1,"TotalRecovered":368,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Bolivia","CountryCode":"BO","Slug":"bolivia","NewConfirmed":114,"TotalConfirmed":144390,"NewDeaths":6,"TotalDeaths":8939,"NewRecovered":511,"TotalRecovered":120720,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Bosnia and Herzegovina","CountryCode":"BA","Slug":"bosnia-and-herzegovina","NewConfirmed":924,"TotalConfirmed":84252,"NewDeaths":51,"TotalDeaths":2480,"NewRecovered":570,"TotalRecovered":48780,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Botswana","CountryCode":"BW","Slug":"botswana","NewConfirmed":266,"TotalConfirmed":10258,"NewDeaths":0,"TotalDeaths":31,"NewRecovered":25,"TotalRecovered":7717,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Brazil","CountryCode":"BR","Slug":"brazil","NewConfirmed":37614,"TotalConfirmed":6204220,"NewDeaths":691,"TotalDeaths":171460,"NewRecovered":22877,"TotalRecovered":5556887,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Brunei Darussalam","CountryCode":"BN","Slug":"brunei","NewConfirmed":0,"TotalConfirmed":150,"NewDeaths":0,"TotalDeaths":3,"NewRecovered":0,"TotalRecovered":145,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Bulgaria","CountryCode":"BG","Slug":"bulgaria","NewConfirmed":3568,"TotalConfirmed":136628,"NewDeaths":162,"TotalDeaths":3529,"NewRecovered":2255,"TotalRecovered":44875,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Burkina Faso","CountryCode":"BF","Slug":"burkina-faso","NewConfirmed":0,"TotalConfirmed":2777,"NewDeaths":0,"TotalDeaths":68,"NewRecovered":0,"TotalRecovered":2567,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Burundi","CountryCode":"BI","Slug":"burundi","NewConfirmed":4,"TotalConfirmed":677,"NewDeaths":0,"TotalDeaths":1,"NewRecovered":0,"TotalRecovered":575,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Cambodia","CountryCode":"KH","Slug":"cambodia","NewConfirmed":0,"TotalConfirmed":307,"NewDeaths":0,"TotalDeaths":0,"NewRecovered":0,"TotalRecovered":298,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Cameroon","CountryCode":"CM","Slug":"cameroon","NewConfirmed":107,"TotalConfirmed":24022,"NewDeaths":0,"TotalDeaths":437,"NewRecovered":0,"TotalRecovered":22177,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Canada","CountryCode":"CA","Slug":"canada","NewConfirmed":5679,"TotalConfirmed":356624,"NewDeaths":85,"TotalDeaths":11817,"NewRecovered":3789,"TotalRecovered":285672,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Cape Verde","CountryCode":"CV","Slug":"cape-verde","NewConfirmed":44,"TotalConfirmed":10570,"NewDeaths":1,"TotalDeaths":105,"NewRecovered":56,"TotalRecovered":9956,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Central African Republic","CountryCode":"CF","Slug":"central-african-republic","NewConfirmed":2,"TotalConfirmed":4913,"NewDeaths":0,"TotalDeaths":63,"NewRecovered":0,"TotalRecovered":1924,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Chad","CountryCode":"TD","Slug":"chad","NewConfirmed":6,"TotalConfirmed":1661,"NewDeaths":0,"TotalDeaths":101,"NewRecovered":2,"TotalRecovered":1496,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Chile","CountryCode":"CL","Slug":"chile","NewConfirmed":1570,"TotalConfirmed":545662,"NewDeaths":97,"TotalDeaths":15235,"NewRecovered":1067,"TotalRecovered":521247,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"China","CountryCode":"CN","Slug":"china","NewConfirmed":86,"TotalConfirmed":92488,"NewDeaths":0,"TotalDeaths":4742,"NewRecovered":12,"TotalRecovered":86900,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Colombia","CountryCode":"CO","Slug":"colombia","NewConfirmed":9496,"TotalConfirmed":1280487,"NewDeaths":159,"TotalDeaths":36019,"NewRecovered":6794,"TotalRecovered":1181753,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Comoros","CountryCode":"KM","Slug":"comoros","NewConfirmed":3,"TotalConfirmed":610,"NewDeaths":0,"TotalDeaths":7,"NewRecovered":6,"TotalRecovered":585,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Congo (Brazzaville)","CountryCode":"CG","Slug":"congo-brazzaville","NewConfirmed":0,"TotalConfirmed":5632,"NewDeaths":0,"TotalDeaths":93,"NewRecovered":0,"TotalRecovered":4988,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Congo (Kinshasa)","CountryCode":"CD","Slug":"congo-kinshasa","NewConfirmed":105,"TotalConfirmed":12470,"NewDeaths":2,"TotalDeaths":333,"NewRecovered":62,"TotalRecovered":11495,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Costa Rica","CountryCode":"CR","Slug":"costa-rica","NewConfirmed":1222,"TotalConfirmed":135742,"NewDeaths":5,"TotalDeaths":1679,"NewRecovered":662,"TotalRecovered":83273,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Croatia","CountryCode":"HR","Slug":"croatia","NewConfirmed":4009,"TotalConfirmed":115626,"NewDeaths":51,"TotalDeaths":1552,"NewRecovered":2924,"TotalRecovered":92349,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Cuba","CountryCode":"CU","Slug":"cuba","NewConfirmed":49,"TotalConfirmed":8075,"NewDeaths":0,"TotalDeaths":133,"NewRecovered":27,"TotalRecovered":7497,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Cyprus","CountryCode":"CY","Slug":"cyprus","NewConfirmed":220,"TotalConfirmed":9673,"NewDeaths":1,"TotalDeaths":48,"NewRecovered":0,"TotalRecovered":2055,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Czech Republic","CountryCode":"CZ","Slug":"czech-republic","NewConfirmed":6305,"TotalConfirmed":511520,"NewDeaths":168,"TotalDeaths":7779,"NewRecovered":14217,"TotalRecovered":431874,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Côte d'Ivoire","CountryCode":"CI","Slug":"cote-divoire","NewConfirmed":31,"TotalConfirmed":21199,"NewDeaths":0,"TotalDeaths":131,"NewRecovered":9,"TotalRecovered":20852,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Denmark","CountryCode":"DK","Slug":"denmark","NewConfirmed":1191,"TotalConfirmed":75913,"NewDeaths":9,"TotalDeaths":811,"NewRecovered":1102,"TotalRecovered":59766,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Djibouti","CountryCode":"DJ","Slug":"djibouti","NewConfirmed":6,"TotalConfirmed":5676,"NewDeaths":0,"TotalDeaths":61,"NewRecovered":1,"TotalRecovered":5576,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Dominica","CountryCode":"DM","Slug":"dominica","NewConfirmed":0,"TotalConfirmed":77,"NewDeaths":0,"TotalDeaths":0,"NewRecovered":0,"TotalRecovered":63,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Dominican Republic","CountryCode":"DO","Slug":"dominican-republic","NewConfirmed":1526,"TotalConfirmed":140922,"NewDeaths":2,"TotalDeaths":2317,"NewRecovered":424,"TotalRecovered":113687,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Ecuador","CountryCode":"EC","Slug":"ecuador","NewConfirmed":908,"TotalConfirmed":188138,"NewDeaths":28,"TotalDeaths":13316,"NewRecovered":0,"TotalRecovered":164009,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Egypt","CountryCode":"EG","Slug":"egypt","NewConfirmed":368,"TotalConfirmed":114475,"NewDeaths":11,"TotalDeaths":6596,"NewRecovered":67,"TotalRecovered":102268,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"El Salvador","CountryCode":"SV","Slug":"el-salvador","NewConfirmed":0,"TotalConfirmed":37884,"NewDeaths":12,"TotalDeaths":1098,"NewRecovered":0,"TotalRecovered":34595,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Equatorial Guinea","CountryCode":"GQ","Slug":"equatorial-guinea","NewConfirmed":9,"TotalConfirmed":5146,"NewDeaths":0,"TotalDeaths":85,"NewRecovered":0,"TotalRecovered":5005,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Eritrea","CountryCode":"ER","Slug":"eritrea","NewConfirmed":8,"TotalConfirmed":566,"NewDeaths":0,"TotalDeaths":0,"NewRecovered":4,"TotalRecovered":477,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Estonia","CountryCode":"EE","Slug":"estonia","NewConfirmed":414,"TotalConfirmed":10955,"NewDeaths":2,"TotalDeaths":99,"NewRecovered":445,"TotalRecovered":6497,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Ethiopia","CountryCode":"ET","Slug":"ethiopia","NewConfirmed":560,"TotalConfirmed":107669,"NewDeaths":8,"TotalDeaths":1672,"NewRecovered":427,"TotalRecovered":67001,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Fiji","CountryCode":"FJ","Slug":"fiji","NewConfirmed":0,"TotalConfirmed":38,"NewDeaths":0,"TotalDeaths":2,"NewRecovered":0,"TotalRecovered":33,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Finland","CountryCode":"FI","Slug":"finland","NewConfirmed":496,"TotalConfirmed":23148,"NewDeaths":0,"TotalDeaths":388,"NewRecovered":0,"TotalRecovered":16800,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"France","CountryCode":"FR","Slug":"france","NewConfirmed":13663,"TotalConfirmed":2235537,"NewDeaths":341,"TotalDeaths":51041,"NewRecovered":1684,"TotalRecovered":163814,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Gabon","CountryCode":"GA","Slug":"gabon","NewConfirmed":0,"TotalConfirmed":9173,"NewDeaths":0,"TotalDeaths":59,"NewRecovered":0,"TotalRecovered":9016,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Gambia","CountryCode":"GM","Slug":"gambia","NewConfirmed":1,"TotalConfirmed":3728,"NewDeaths":0,"TotalDeaths":123,"NewRecovered":1,"TotalRecovered":3588,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Georgia","CountryCode":"GE","Slug":"georgia","NewConfirmed":3801,"TotalConfirmed":118690,"NewDeaths":39,"TotalDeaths":1124,"NewRecovered":3200,"TotalRecovered":98781,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Germany","CountryCode":"DE","Slug":"germany","NewConfirmed":21951,"TotalConfirmed":1017830,"NewDeaths":430,"TotalDeaths":15640,"NewRecovered":19164,"TotalRecovered":685537,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Ghana","CountryCode":"GH","Slug":"ghana","NewConfirmed":0,"TotalConfirmed":51225,"NewDeaths":0,"TotalDeaths":323,"NewRecovered":0,"TotalRecovered":50127,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Greece","CountryCode":"GR","Slug":"greece","NewConfirmed":2018,"TotalConfirmed":99306,"NewDeaths":99,"TotalDeaths":2001,"NewRecovered":0,"TotalRecovered":23074,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Grenada","CountryCode":"GD","Slug":"grenada","NewConfirmed":0,"TotalConfirmed":41,"NewDeaths":0,"TotalDeaths":0,"NewRecovered":0,"TotalRecovered":30,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Guatemala","CountryCode":"GT","Slug":"guatemala","NewConfirmed":696,"TotalConfirmed":120685,"NewDeaths":26,"TotalDeaths":4133,"NewRecovered":452,"TotalRecovered":109306,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Guinea","CountryCode":"GN","Slug":"guinea","NewConfirmed":20,"TotalConfirmed":12949,"NewDeaths":0,"TotalDeaths":76,"NewRecovered":20,"TotalRecovered":11922,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Guinea-Bissau","CountryCode":"GW","Slug":"guinea-bissau","NewConfirmed":0,"TotalConfirmed":2422,"NewDeaths":0,"TotalDeaths":43,"NewRecovered":0,"TotalRecovered":2309,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Guyana","CountryCode":"GY","Slug":"guyana","NewConfirmed":40,"TotalConfirmed":5276,"NewDeaths":2,"TotalDeaths":149,"NewRecovered":10,"TotalRecovered":4252,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Haiti","CountryCode":"HT","Slug":"haiti","NewConfirmed":8,"TotalConfirmed":9256,"NewDeaths":0,"TotalDeaths":232,"NewRecovered":9,"TotalRecovered":7925,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Holy See (Vatican City State)","CountryCode":"VA","Slug":"holy-see-vatican-city-state","NewConfirmed":0,"TotalConfirmed":27,"NewDeaths":0,"TotalDeaths":0,"NewRecovered":0,"TotalRecovered":15,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Honduras","CountryCode":"HN","Slug":"honduras","NewConfirmed":565,"TotalConfirmed":106681,"NewDeaths":4,"TotalDeaths":2892,"NewRecovered":348,"TotalRecovered":47354,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Hungary","CountryCode":"HU","Slug":"hungary","NewConfirmed":6360,"TotalConfirmed":192047,"NewDeaths":115,"TotalDeaths":4229,"NewRecovered":5596,"TotalRecovered":49616,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Iceland","CountryCode":"IS","Slug":"iceland","NewConfirmed":11,"TotalConfirmed":5323,"NewDeaths":0,"TotalDeaths":26,"NewRecovered":21,"TotalRecovered":5131,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"India","CountryCode":"IN","Slug":"india","NewConfirmed":43082,"TotalConfirmed":9309787,"NewDeaths":492,"TotalDeaths":135715,"NewRecovered":39379,"TotalRecovered":8718517,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Indonesia","CountryCode":"ID","Slug":"indonesia","NewConfirmed":4917,"TotalConfirmed":516753,"NewDeaths":127,"TotalDeaths":16352,"NewRecovered":3842,"TotalRecovered":433649,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Iran, Islamic Republic of","CountryCode":"IR","Slug":"iran","NewConfirmed":13961,"TotalConfirmed":908346,"NewDeaths":482,"TotalDeaths":46689,"NewRecovered":7669,"TotalRecovered":633275,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Iraq","CountryCode":"IQ","Slug":"iraq","NewConfirmed":2483,"TotalConfirmed":544670,"NewDeaths":39,"TotalDeaths":12125,"NewRecovered":2322,"TotalRecovered":474376,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Ireland","CountryCode":"IE","Slug":"ireland","NewConfirmed":307,"TotalConfirmed":71494,"NewDeaths":3,"TotalDeaths":2036,"NewRecovered":0,"TotalRecovered":23364,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Israel","CountryCode":"IL","Slug":"israel","NewConfirmed":1169,"TotalConfirmed":333084,"NewDeaths":8,"TotalDeaths":2834,"NewRecovered":900,"TotalRecovered":320821,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Italy","CountryCode":"IT","Slug":"italy","NewConfirmed":29001,"TotalConfirmed":1509875,"NewDeaths":822,"TotalDeaths":52850,"NewRecovered":24031,"TotalRecovered":661180,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Jamaica","CountryCode":"JM","Slug":"jamaica","NewConfirmed":53,"TotalConfirmed":10541,"NewDeaths":1,"TotalDeaths":248,"NewRecovered":98,"TotalRecovered":5721,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Japan","CountryCode":"JP","Slug":"japan","NewConfirmed":2490,"TotalConfirmed":140225,"NewDeaths":13,"TotalDeaths":1996,"NewRecovered":1653,"TotalRecovered":116222,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Jordan","CountryCode":"JO","Slug":"jordan","NewConfirmed":5000,"TotalConfirmed":203021,"NewDeaths":67,"TotalDeaths":2509,"NewRecovered":4469,"TotalRecovered":135650,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Kazakhstan","CountryCode":"KZ","Slug":"kazakhstan","NewConfirmed":813,"TotalConfirmed":129213,"NewDeaths":0,"TotalDeaths":1990,"NewRecovered":563,"TotalRecovered":115384,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Kenya","CountryCode":"KE","Slug":"kenya","NewConfirmed":780,"TotalConfirmed":80102,"NewDeaths":10,"TotalDeaths":1427,"NewRecovered":552,"TotalRecovered":53526,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Korea (South)","CountryCode":"KR","Slug":"korea-south","NewConfirmed":569,"TotalConfirmed":32887,"NewDeaths":1,"TotalDeaths":516,"NewRecovered":153,"TotalRecovered":27103,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Kuwait","CountryCode":"KW","Slug":"kuwait","NewConfirmed":330,"TotalConfirmed":141547,"NewDeaths":1,"TotalDeaths":872,"NewRecovered":717,"TotalRecovered":134750,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Kyrgyzstan","CountryCode":"KG","Slug":"kyrgyzstan","NewConfirmed":377,"TotalConfirmed":71548,"NewDeaths":5,"TotalDeaths":1256,"NewRecovered":402,"TotalRecovered":62946,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Lao PDR","CountryCode":"LA","Slug":"lao-pdr","NewConfirmed":0,"TotalConfirmed":25,"NewDeaths":0,"TotalDeaths":0,"NewRecovered":0,"TotalRecovered":23,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Latvia","CountryCode":"LV","Slug":"latvia","NewConfirmed":898,"TotalConfirmed":15171,"NewDeaths":4,"TotalDeaths":188,"NewRecovered":33,"TotalRecovered":1719,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Lebanon","CountryCode":"LB","Slug":"lebanon","NewConfirmed":1859,"TotalConfirmed":122200,"NewDeaths":24,"TotalDeaths":974,"NewRecovered":916,"TotalRecovered":72152,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Lesotho","CountryCode":"LS","Slug":"lesotho","NewConfirmed":17,"TotalConfirmed":2109,"NewDeaths":0,"TotalDeaths":44,"NewRecovered":1,"TotalRecovered":1278,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Liberia","CountryCode":"LR","Slug":"liberia","NewConfirmed":13,"TotalConfirmed":1591,"NewDeaths":0,"TotalDeaths":83,"NewRecovered":0,"TotalRecovered":1340,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Libya","CountryCode":"LY","Slug":"libya","NewConfirmed":610,"TotalConfirmed":80407,"NewDeaths":15,"TotalDeaths":1140,"NewRecovered":671,"TotalRecovered":51585,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Liechtenstein","CountryCode":"LI","Slug":"liechtenstein","NewConfirmed":25,"TotalConfirmed":1208,"NewDeaths":0,"TotalDeaths":14,"NewRecovered":25,"TotalRecovered":1010,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Lithuania","CountryCode":"LT","Slug":"lithuania","NewConfirmed":2102,"TotalConfirmed":53757,"NewDeaths":17,"TotalDeaths":449,"NewRecovered":373,"TotalRecovered":12655,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Luxembourg","CountryCode":"LU","Slug":"luxembourg","NewConfirmed":773,"TotalConfirmed":32873,"NewDeaths":6,"TotalDeaths":294,"NewRecovered":774,"TotalRecovered":23404,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Macao, SAR China","CountryCode":"MO","Slug":"macao-sar-china","NewConfirmed":0,"TotalConfirmed":0,"NewDeaths":0,"TotalDeaths":0,"NewRecovered":0,"TotalRecovered":0,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Macedonia, Republic of","CountryCode":"MK","Slug":"macedonia","NewConfirmed":1157,"TotalConfirmed":58608,"NewDeaths":30,"TotalDeaths":1630,"NewRecovered":1094,"TotalRecovered":36064,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Madagascar","CountryCode":"MG","Slug":"madagascar","NewConfirmed":0,"TotalConfirmed":17341,"NewDeaths":0,"TotalDeaths":251,"NewRecovered":0,"TotalRecovered":16657,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Malawi","CountryCode":"MW","Slug":"malawi","NewConfirmed":2,"TotalConfirmed":6020,"NewDeaths":0,"TotalDeaths":185,"NewRecovered":0,"TotalRecovered":5450,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Malaysia","CountryCode":"MY","Slug":"malaysia","NewConfirmed":935,"TotalConfirmed":60752,"NewDeaths":3,"TotalDeaths":348,"NewRecovered":2555,"TotalRecovered":49056,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Maldives","CountryCode":"MV","Slug":"maldives","NewConfirmed":35,"TotalConfirmed":12889,"NewDeaths":0,"TotalDeaths":46,"NewRecovered":36,"TotalRecovered":11717,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Mali","CountryCode":"ML","Slug":"mali","NewConfirmed":44,"TotalConfirmed":4505,"NewDeaths":0,"TotalDeaths":148,"NewRecovered":16,"TotalRecovered":3076,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Malta","CountryCode":"MT","Slug":"malta","NewConfirmed":152,"TotalConfirmed":9405,"NewDeaths":3,"TotalDeaths":125,"NewRecovered":103,"TotalRecovered":7165,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Marshall Islands","CountryCode":"MH","Slug":"marshall-islands","NewConfirmed":0,"TotalConfirmed":4,"NewDeaths":0,"TotalDeaths":0,"NewRecovered":0,"TotalRecovered":1,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Mauritania","CountryCode":"MR","Slug":"mauritania","NewConfirmed":42,"TotalConfirmed":8288,"NewDeaths":0,"TotalDeaths":171,"NewRecovered":6,"TotalRecovered":7652,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Mauritius","CountryCode":"MU","Slug":"mauritius","NewConfirmed":1,"TotalConfirmed":498,"NewDeaths":0,"TotalDeaths":10,"NewRecovered":0,"TotalRecovered":440,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Mexico","CountryCode":"MX","Slug":"mexico","NewConfirmed":8107,"TotalConfirmed":1078594,"NewDeaths":645,"TotalDeaths":104242,"NewRecovered":5544,"TotalRecovered":803581,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Moldova","CountryCode":"MD","Slug":"moldova","NewConfirmed":1691,"TotalConfirmed":102894,"NewDeaths":20,"TotalDeaths":2229,"NewRecovered":6696,"TotalRecovered":90485,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Monaco","CountryCode":"MC","Slug":"monaco","NewConfirmed":6,"TotalConfirmed":600,"NewDeaths":0,"TotalDeaths":3,"NewRecovered":0,"TotalRecovered":530,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Mongolia","CountryCode":"MN","Slug":"mongolia","NewConfirmed":26,"TotalConfirmed":738,"NewDeaths":0,"TotalDeaths":0,"NewRecovered":2,"TotalRecovered":347,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Montenegro","CountryCode":"ME","Slug":"montenegro","NewConfirmed":508,"TotalConfirmed":33316,"NewDeaths":10,"TotalDeaths":469,"NewRecovered":492,"TotalRecovered":21721,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Morocco","CountryCode":"MA","Slug":"morocco","NewConfirmed":4178,"TotalConfirmed":340684,"NewDeaths":80,"TotalDeaths":5619,"NewRecovered":5312,"TotalRecovered":289808,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Mozambique","CountryCode":"MZ","Slug":"mozambique","NewConfirmed":165,"TotalConfirmed":15467,"NewDeaths":0,"TotalDeaths":128,"NewRecovered":61,"TotalRecovered":13520,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Myanmar","CountryCode":"MM","Slug":"myanmar","NewConfirmed":1639,"TotalConfirmed":85205,"NewDeaths":36,"TotalDeaths":1846,"NewRecovered":1279,"TotalRecovered":64645,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Namibia","CountryCode":"NA","Slug":"namibia","NewConfirmed":149,"TotalConfirmed":14155,"NewDeaths":2,"TotalDeaths":147,"NewRecovered":16,"TotalRecovered":13355,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Nepal","CountryCode":"NP","Slug":"nepal","NewConfirmed":1614,"TotalConfirmed":227640,"NewDeaths":23,"TotalDeaths":1412,"NewRecovered":1437,"TotalRecovered":209435,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Netherlands","CountryCode":"NL","Slug":"netherlands","NewConfirmed":4470,"TotalConfirmed":503123,"NewDeaths":75,"TotalDeaths":9184,"NewRecovered":0,"TotalRecovered":0,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"New Zealand","CountryCode":"NZ","Slug":"new-zealand","NewConfirmed":7,"TotalConfirmed":2047,"NewDeaths":0,"TotalDeaths":25,"NewRecovered":1,"TotalRecovered":1956,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Nicaragua","CountryCode":"NI","Slug":"nicaragua","NewConfirmed":0,"TotalConfirmed":5784,"NewDeaths":0,"TotalDeaths":160,"NewRecovered":0,"TotalRecovered":4225,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Niger","CountryCode":"NE","Slug":"niger","NewConfirmed":24,"TotalConfirmed":1443,"NewDeaths":0,"TotalDeaths":70,"NewRecovered":12,"TotalRecovered":1182,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Nigeria","CountryCode":"NG","Slug":"nigeria","NewConfirmed":169,"TotalConfirmed":66974,"NewDeaths":0,"TotalDeaths":1169,"NewRecovered":92,"TotalRecovered":62585,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Norway","CountryCode":"NO","Slug":"norway","NewConfirmed":480,"TotalConfirmed":34748,"NewDeaths":0,"TotalDeaths":316,"NewRecovered":0,"TotalRecovered":17998,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Oman","CountryCode":"OM","Slug":"oman","NewConfirmed":0,"TotalConfirmed":122579,"NewDeaths":0,"TotalDeaths":1391,"NewRecovered":0,"TotalRecovered":113856,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Pakistan","CountryCode":"PK","Slug":"pakistan","NewConfirmed":3113,"TotalConfirmed":389311,"NewDeaths":54,"TotalDeaths":7897,"NewRecovered":1489,"TotalRecovered":335881,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Palestinian Territory","CountryCode":"PS","Slug":"palestine","NewConfirmed":1766,"TotalConfirmed":78493,"NewDeaths":15,"TotalDeaths":680,"NewRecovered":742,"TotalRecovered":61241,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Panama","CountryCode":"PA","Slug":"panama","NewConfirmed":1755,"TotalConfirmed":160287,"NewDeaths":16,"TotalDeaths":3018,"NewRecovered":1620,"TotalRecovered":140976,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Papua New Guinea","CountryCode":"PG","Slug":"papua-new-guinea","NewConfirmed":0,"TotalConfirmed":645,"NewDeaths":0,"TotalDeaths":7,"NewRecovered":0,"TotalRecovered":588,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Paraguay","CountryCode":"PY","Slug":"paraguay","NewConfirmed":639,"TotalConfirmed":79517,"NewDeaths":13,"TotalDeaths":1704,"NewRecovered":485,"TotalRecovered":56510,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Peru","CountryCode":"PE","Slug":"peru","NewConfirmed":0,"TotalConfirmed":952439,"NewDeaths":0,"TotalDeaths":35685,"NewRecovered":2272,"TotalRecovered":887019,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Philippines","CountryCode":"PH","Slug":"philippines","NewConfirmed":1382,"TotalConfirmed":424297,"NewDeaths":27,"TotalDeaths":8242,"NewRecovered":311,"TotalRecovered":387266,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Poland","CountryCode":"PL","Slug":"poland","NewConfirmed":16690,"TotalConfirmed":941112,"NewDeaths":580,"TotalDeaths":15568,"NewRecovered":25342,"TotalRecovered":494869,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Portugal","CountryCode":"PT","Slug":"portugal","NewConfirmed":6383,"TotalConfirmed":280394,"NewDeaths":82,"TotalDeaths":4209,"NewRecovered":4588,"TotalRecovered":193944,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Qatar","CountryCode":"QA","Slug":"qatar","NewConfirmed":215,"TotalConfirmed":138066,"NewDeaths":0,"TotalDeaths":237,"NewRecovered":248,"TotalRecovered":135198,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Republic of Kosovo","CountryCode":"XK","Slug":"kosovo","NewConfirmed":775,"TotalConfirmed":37028,"NewDeaths":15,"TotalDeaths":963,"NewRecovered":553,"TotalRecovered":22690,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Romania","CountryCode":"RO","Slug":"romania","NewConfirmed":9005,"TotalConfirmed":449349,"NewDeaths":171,"TotalDeaths":10712,"NewRecovered":9629,"TotalRecovered":323514,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Russian Federation","CountryCode":"RU","Slug":"russia","NewConfirmed":25195,"TotalConfirmed":2169424,"NewDeaths":515,"TotalDeaths":37688,"NewRecovered":24612,"TotalRecovered":1671349,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Rwanda","CountryCode":"RW","Slug":"rwanda","NewConfirmed":72,"TotalConfirmed":5851,"NewDeaths":0,"TotalDeaths":47,"NewRecovered":28,"TotalRecovered":5345,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Réunion","CountryCode":"RE","Slug":"réunion","NewConfirmed":0,"TotalConfirmed":0,"NewDeaths":0,"TotalDeaths":0,"NewRecovered":0,"TotalRecovered":0,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Saint Kitts and Nevis","CountryCode":"KN","Slug":"saint-kitts-and-nevis","NewConfirmed":0,"TotalConfirmed":22,"NewDeaths":0,"TotalDeaths":0,"NewRecovered":0,"TotalRecovered":19,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Saint Lucia","CountryCode":"LC","Slug":"saint-lucia","NewConfirmed":3,"TotalConfirmed":238,"NewDeaths":0,"TotalDeaths":2,"NewRecovered":0,"TotalRecovered":109,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Saint Vincent and Grenadines","CountryCode":"VC","Slug":"saint-vincent-and-the-grenadines","NewConfirmed":0,"TotalConfirmed":84,"NewDeaths":0,"TotalDeaths":0,"NewRecovered":0,"TotalRecovered":78,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"San Marino","CountryCode":"SM","Slug":"san-marino","NewConfirmed":22,"TotalConfirmed":1514,"NewDeaths":0,"TotalDeaths":44,"NewRecovered":10,"TotalRecovered":1231,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Sao Tome and Principe","CountryCode":"ST","Slug":"sao-tome-and-principe","NewConfirmed":3,"TotalConfirmed":985,"NewDeaths":0,"TotalDeaths":17,"NewRecovered":2,"TotalRecovered":928,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Saudi Arabia","CountryCode":"SA","Slug":"saudi-arabia","NewConfirmed":322,"TotalConfirmed":356389,"NewDeaths":15,"TotalDeaths":5840,"NewRecovered":428,"TotalRecovered":345215,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Senegal","CountryCode":"SN","Slug":"senegal","NewConfirmed":33,"TotalConfirmed":15960,"NewDeaths":0,"TotalDeaths":331,"NewRecovered":18,"TotalRecovered":15558,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Serbia","CountryCode":"RS","Slug":"serbia","NewConfirmed":7606,"TotalConfirmed":148214,"NewDeaths":51,"TotalDeaths":1366,"NewRecovered":0,"TotalRecovered":0,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Seychelles","CountryCode":"SC","Slug":"seychelles","NewConfirmed":0,"TotalConfirmed":166,"NewDeaths":0,"TotalDeaths":0,"NewRecovered":0,"TotalRecovered":159,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Sierra Leone","CountryCode":"SL","Slug":"sierra-leone","NewConfirmed":1,"TotalConfirmed":2409,"NewDeaths":0,"TotalDeaths":74,"NewRecovered":2,"TotalRecovered":1831,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Singapore","CountryCode":"SG","Slug":"singapore","NewConfirmed":5,"TotalConfirmed":58195,"NewDeaths":0,"TotalDeaths":28,"NewRecovered":13,"TotalRecovered":58104,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Slovakia","CountryCode":"SK","Slug":"slovakia","NewConfirmed":1953,"TotalConfirmed":101257,"NewDeaths":17,"TotalDeaths":749,"NewRecovered":2831,"TotalRecovered":56378,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Slovenia","CountryCode":"SI","Slug":"slovenia","NewConfirmed":1767,"TotalConfirmed":71073,"NewDeaths":46,"TotalDeaths":1245,"NewRecovered":1884,"TotalRecovered":49654,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Solomon Islands","CountryCode":"SB","Slug":"solomon-islands","NewConfirmed":0,"TotalConfirmed":17,"NewDeaths":0,"TotalDeaths":0,"NewRecovered":0,"TotalRecovered":5,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Somalia","CountryCode":"SO","Slug":"somalia","NewConfirmed":6,"TotalConfirmed":4451,"NewDeaths":0,"TotalDeaths":113,"NewRecovered":5,"TotalRecovered":3417,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"South Africa","CountryCode":"ZA","Slug":"south-africa","NewConfirmed":3069,"TotalConfirmed":778571,"NewDeaths":88,"TotalDeaths":21289,"NewRecovered":0,"TotalRecovered":716444,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"South Sudan","CountryCode":"SS","Slug":"south-sudan","NewConfirmed":19,"TotalConfirmed":3092,"NewDeaths":0,"TotalDeaths":61,"NewRecovered":11,"TotalRecovered":2949,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Spain","CountryCode":"ES","Slug":"spain","NewConfirmed":12289,"TotalConfirmed":1617355,"NewDeaths":337,"TotalDeaths":44374,"NewRecovered":0,"TotalRecovered":150376,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Sri Lanka","CountryCode":"LK","Slug":"sri-lanka","NewConfirmed":559,"TotalConfirmed":22028,"NewDeaths":3,"TotalDeaths":99,"NewRecovered":369,"TotalRecovered":15816,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Sudan","CountryCode":"SD","Slug":"sudan","NewConfirmed":215,"TotalConfirmed":16864,"NewDeaths":5,"TotalDeaths":1215,"NewRecovered":56,"TotalRecovered":9964,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Suriname","CountryCode":"SR","Slug":"suriname","NewConfirmed":2,"TotalConfirmed":5307,"NewDeaths":0,"TotalDeaths":117,"NewRecovered":1,"TotalRecovered":5185,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Swaziland","CountryCode":"SZ","Slug":"swaziland","NewConfirmed":57,"TotalConfirmed":6329,"NewDeaths":0,"TotalDeaths":120,"NewRecovered":28,"TotalRecovered":5929,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Sweden","CountryCode":"SE","Slug":"sweden","NewConfirmed":5841,"TotalConfirmed":236355,"NewDeaths":67,"TotalDeaths":6622,"NewRecovered":0,"TotalRecovered":0,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Switzerland","CountryCode":"CH","Slug":"switzerland","NewConfirmed":4509,"TotalConfirmed":313978,"NewDeaths":116,"TotalDeaths":4509,"NewRecovered":7400,"TotalRecovered":218900,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Syrian Arab Republic (Syria)","CountryCode":"SY","Slug":"syria","NewConfirmed":83,"TotalConfirmed":7542,"NewDeaths":8,"TotalDeaths":399,"NewRecovered":59,"TotalRecovered":3330,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Taiwan, Republic of China","CountryCode":"TW","Slug":"taiwan","NewConfirmed":2,"TotalConfirmed":625,"NewDeaths":0,"TotalDeaths":7,"NewRecovered":2,"TotalRecovered":555,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Tajikistan","CountryCode":"TJ","Slug":"tajikistan","NewConfirmed":36,"TotalConfirmed":12044,"NewDeaths":0,"TotalDeaths":86,"NewRecovered":42,"TotalRecovered":11437,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Tanzania, United Republic of","CountryCode":"TZ","Slug":"tanzania","NewConfirmed":0,"TotalConfirmed":509,"NewDeaths":0,"TotalDeaths":21,"NewRecovered":0,"TotalRecovered":183,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Thailand","CountryCode":"TH","Slug":"thailand","NewConfirmed":19,"TotalConfirmed":3961,"NewDeaths":0,"TotalDeaths":60,"NewRecovered":2,"TotalRecovered":3790,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Timor-Leste","CountryCode":"TL","Slug":"timor-leste","NewConfirmed":0,"TotalConfirmed":30,"NewDeaths":0,"TotalDeaths":0,"NewRecovered":0,"TotalRecovered":30,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Togo","CountryCode":"TG","Slug":"togo","NewConfirmed":15,"TotalConfirmed":2904,"NewDeaths":0,"TotalDeaths":64,"NewRecovered":25,"TotalRecovered":2345,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Trinidad and Tobago","CountryCode":"TT","Slug":"trinidad-and-tobago","NewConfirmed":67,"TotalConfirmed":6570,"NewDeaths":0,"TotalDeaths":116,"NewRecovered":25,"TotalRecovered":5680,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Tunisia","CountryCode":"TN","Slug":"tunisia","NewConfirmed":1168,"TotalConfirmed":92475,"NewDeaths":51,"TotalDeaths":3034,"NewRecovered":994,"TotalRecovered":67453,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Turkey","CountryCode":"TR","Slug":"turkey","NewConfirmed":36008,"TotalConfirmed":503738,"NewDeaths":174,"TotalDeaths":13014,"NewRecovered":3291,"TotalRecovered":388771,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Uganda","CountryCode":"UG","Slug":"uganda","NewConfirmed":225,"TotalConfirmed":19115,"NewDeaths":0,"TotalDeaths":191,"NewRecovered":8,"TotalRecovered":8840,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Ukraine","CountryCode":"UA","Slug":"ukraine","NewConfirmed":15623,"TotalConfirmed":695755,"NewDeaths":234,"TotalDeaths":12091,"NewRecovered":10078,"TotalRecovered":331538,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"United Arab Emirates","CountryCode":"AE","Slug":"united-arab-emirates","NewConfirmed":1305,"TotalConfirmed":163967,"NewDeaths":1,"TotalDeaths":564,"NewRecovered":826,"TotalRecovered":151870,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"United Kingdom","CountryCode":"GB","Slug":"united-kingdom","NewConfirmed":17557,"TotalConfirmed":1578429,"NewDeaths":498,"TotalDeaths":57128,"NewRecovered":9,"TotalRecovered":3454,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"United States of America","CountryCode":"US","Slug":"united-states","NewConfirmed":110611,"TotalConfirmed":12883264,"NewDeaths":1232,"TotalDeaths":263454,"NewRecovered":35247,"TotalRecovered":4871203,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Uruguay","CountryCode":"UY","Slug":"uruguay","NewConfirmed":129,"TotalConfirmed":5117,"NewDeaths":1,"TotalDeaths":74,"NewRecovered":98,"TotalRecovered":4021,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Uzbekistan","CountryCode":"UZ","Slug":"uzbekistan","NewConfirmed":182,"TotalConfirmed":72409,"NewDeaths":1,"TotalDeaths":607,"NewRecovered":193,"TotalRecovered":69670,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Vanuatu","CountryCode":"VU","Slug":"vanuatu","NewConfirmed":0,"TotalConfirmed":1,"NewDeaths":0,"TotalDeaths":0,"NewRecovered":0,"TotalRecovered":0,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Venezuela (Bolivarian Republic)","CountryCode":"VE","Slug":"venezuela","NewConfirmed":398,"TotalConfirmed":101215,"NewDeaths":4,"TotalDeaths":884,"NewRecovered":403,"TotalRecovered":96072,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Viet Nam","CountryCode":"VN","Slug":"vietnam","NewConfirmed":10,"TotalConfirmed":1331,"NewDeaths":0,"TotalDeaths":35,"NewRecovered":13,"TotalRecovered":1166,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Western Sahara","CountryCode":"EH","Slug":"western-sahara","NewConfirmed":0,"TotalConfirmed":10,"NewDeaths":0,"TotalDeaths":1,"NewRecovered":0,"TotalRecovered":8,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Yemen","CountryCode":"YE","Slug":"yemen","NewConfirmed":13,"TotalConfirmed":2137,"NewDeaths":1,"TotalDeaths":612,"NewRecovered":10,"TotalRecovered":1484,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Zambia","CountryCode":"ZM","Slug":"zambia","NewConfirmed":18,"TotalConfirmed":17553,"NewDeaths":0,"TotalDeaths":357,"NewRecovered":24,"TotalRecovered":16779,"Date":"2020-11-27T09:55:38Z","Premium":{}},{"Country":"Zimbabwe","CountryCode":"ZW","Slug":"zimbabwe","NewConfirmed":115,"TotalConfirmed":9623,"NewDeaths":0,"TotalDeaths":274,"NewRecovered":61,"TotalRecovered":8397,"Date":"2020-11-27T09:55:38Z","Premium":{}}],"Date":"2020-11-27T09:55:38Z"}</value>
+      </property>
+      <property>
+        <name>character-set</name>
+        <value>UTF-8</value>
+      </property>
+    </processor>
+    <processor>
+      <id>08fc78b0-0176-1000-d756-2878f2b03856</id>
+      <name>AttributesToEncrypt</name>
+      <position x="2160.0" y="800.0"/>
+      <styles/>
+      <comment/>
+      <class>org.apache.nifi.processors.attributes.UpdateAttribute</class>
+      <bundle>
+        <group>org.apache.nifi</group>
+        <artifact>nifi-update-attribute-nar</artifact>
+        <version>1.10.0</version>
+      </bundle>
+      <maxConcurrentTasks>1</maxConcurrentTasks>
+      <schedulingPeriod>0 sec</schedulingPeriod>
+      <penalizationPeriod>30 sec</penalizationPeriod>
+      <yieldPeriod>1 sec</yieldPeriod>
+      <bulletinLevel>WARN</bulletinLevel>
+      <lossTolerant>false</lossTolerant>
+      <scheduledState>STOPPED</scheduledState>
+      <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+      <executionNode>ALL</executionNode>
+      <runDurationNanos>0</runDurationNanos>
+      <property>
+        <name>Delete Attributes Expression</name>
+      </property>
+      <property>
+        <name>Store State</name>
+        <value>Do not store state</value>
+      </property>
+      <property>
+        <name>Stateful Variables Initial Value</name>
+      </property>
+      <property>
+        <name>canonical-value-lookup-cache-size</name>
+        <value>100</value>
+      </property>
+      <property>
+        <name>attributesToEncrypt</name>
+        <value>Country_Code</value>
+      </property>
+    </processor>
+    <processor>
+      <id>523bb255-0176-1000-039b-b2acb661c456</id>
+      <name>PutHDFS</name>
+      <position x="4832.0" y="176.0"/>
+      <styles/>
+      <comment/>
+      <class>org.apache.nifi.processors.hadoop.PutHDFS</class>
+      <bundle>
+        <group>org.apache.nifi</group>
+        <artifact>nifi-hadoop-nar</artifact>
+        <version>1.10.0</version>
+      </bundle>
+      <maxConcurrentTasks>1</maxConcurrentTasks>
+      <schedulingPeriod>0 sec</schedulingPeriod>
+      <penalizationPeriod>30 sec</penalizationPeriod>
+      <yieldPeriod>1 sec</yieldPeriod>
+      <bulletinLevel>WARN</bulletinLevel>
+      <lossTolerant>false</lossTolerant>
+      <scheduledState>STOPPED</scheduledState>
+      <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+      <executionNode>ALL</executionNode>
+      <runDurationNanos>0</runDurationNanos>
+      <property>
+        <name>Hadoop Configuration Resources</name>
+        <value>/home/ubuntu/hadoop-3.2.1/etc/hadoop/core-site.xml,/home/ubuntu/hadoop-3.2.1/etc/hadoop/hdfs-site.xml,/home/ubuntu/hadoop-3.2.1/etc/hadoop/mapred-site.xml,/home/ubuntu/hadoop-3.2.1/etc/hadoop/yarn-site.xml</value>
+      </property>
+      <property>
+        <name>kerberos-credentials-service</name>
+      </property>
+      <property>
+        <name>Kerberos Principal</name>
+      </property>
+      <property>
+        <name>Kerberos Keytab</name>
+      </property>
+      <property>
+        <name>Kerberos Relogin Period</name>
+        <value>4 hours</value>
+      </property>
+      <property>
+        <name>Additional Classpath Resources</name>
+      </property>
+      <property>
+        <name>Directory</name>
+        <value>/dezyre/dezyre_out</value>
+      </property>
+      <property>
+        <name>Conflict Resolution Strategy</name>
+        <value>fail</value>
+      </property>
+      <property>
+        <name>Block Size</name>
+      </property>
+      <property>
+        <name>IO Buffer Size</name>
+      </property>
+      <property>
+        <name>Replication</name>
+      </property>
+      <property>
+        <name>Permissions umask</name>
+      </property>
+      <property>
+        <name>Remote Owner</name>
+      </property>
+      <property>
+        <name>Remote Group</name>
+      </property>
+      <property>
+        <name>Compression codec</name>
+        <value>NONE</value>
+      </property>
+      <property>
+        <name>Ignore Locality</name>
+        <value>false</value>
+      </property>
+      <autoTerminatedRelationship>success</autoTerminatedRelationship>
+      <autoTerminatedRelationship>failure</autoTerminatedRelationship>
+    </processor>
+    <processor>
+      <id>09bbf144-0176-1000-ce23-d6817a53fcc3</id>
+      <name>MergeContent</name>
+      <position x="496.0" y="864.0"/>
+      <styles/>
+      <comment/>
+      <class>org.apache.nifi.processors.standard.MergeContent</class>
+      <bundle>
+        <group>org.apache.nifi</group>
+        <artifact>nifi-standard-nar</artifact>
+        <version>1.10.0</version>
+      </bundle>
+      <maxConcurrentTasks>1</maxConcurrentTasks>
+      <schedulingPeriod>0 sec</schedulingPeriod>
+      <penalizationPeriod>30 sec</penalizationPeriod>
+      <yieldPeriod>1 sec</yieldPeriod>
+      <bulletinLevel>WARN</bulletinLevel>
+      <lossTolerant>false</lossTolerant>
+      <scheduledState>STOPPED</scheduledState>
+      <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+      <executionNode>ALL</executionNode>
+      <runDurationNanos>0</runDurationNanos>
+      <property>
+        <name>Merge Strategy</name>
+        <value>Bin-Packing Algorithm</value>
+      </property>
+      <property>
+        <name>Merge Format</name>
+        <value>Binary Concatenation</value>
+      </property>
+      <property>
+        <name>Attribute Strategy</name>
+        <value>Keep Only Common Attributes</value>
+      </property>
+      <property>
+        <name>Correlation Attribute Name</name>
+      </property>
+      <property>
+        <name>mergecontent-metadata-strategy</name>
+        <value>Do Not Merge Uncommon Metadata</value>
+      </property>
+      <property>
+        <name>Minimum Number of Entries</name>
+        <value>1</value>
+      </property>
+      <property>
+        <name>Maximum Number of Entries</name>
+        <value>1000</value>
+      </property>
+      <property>
+        <name>Minimum Group Size</name>
+        <value>0 B</value>
+      </property>
+      <property>
+        <name>Maximum Group Size</name>
+      </property>
+      <property>
+        <name>Max Bin Age</name>
+      </property>
+      <property>
+        <name>Maximum number of Bins</name>
+        <value>5</value>
+      </property>
+      <property>
+        <name>Delimiter Strategy</name>
+        <value>Text</value>
+      </property>
+      <property>
+        <name>Header File</name>
+      </property>
+      <property>
+        <name>Footer File</name>
+      </property>
+      <property>
+        <name>Demarcator File</name>
+        <value>${literal('\n'):unescapeXml()}</value>
+      </property>
+      <property>
+        <name>Compression Level</name>
+        <value>1</value>
+      </property>
+      <property>
+        <name>Keep Path</name>
+        <value>false</value>
+      </property>
+      <property>
+        <name>Tar Modified Time</name>
+        <value>${file.lastModifiedTime}</value>
+      </property>
+      <autoTerminatedRelationship>failure</autoTerminatedRelationship>
+      <autoTerminatedRelationship>original</autoTerminatedRelationship>
+    </processor>
+    <processor>
+      <id>faa1137a-0175-1000-af25-78e188249f3a</id>
+      <name>EvaluateJsonPath</name>
+      <position x="640.0" y="520.0"/>
+      <styles/>
+      <comment/>
+      <class>org.apache.nifi.processors.standard.EvaluateJsonPath</class>
+      <bundle>
+        <group>org.apache.nifi</group>
+        <artifact>nifi-standard-nar</artifact>
+        <version>1.10.0</version>
+      </bundle>
+      <maxConcurrentTasks>1</maxConcurrentTasks>
+      <schedulingPeriod>0 sec</schedulingPeriod>
+      <penalizationPeriod>30 sec</penalizationPeriod>
+      <yieldPeriod>1 sec</yieldPeriod>
+      <bulletinLevel>WARN</bulletinLevel>
+      <lossTolerant>false</lossTolerant>
+      <scheduledState>STOPPED</scheduledState>
+      <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+      <executionNode>ALL</executionNode>
+      <runDurationNanos>0</runDurationNanos>
+      <property>
+        <name>Destination</name>
+        <value>flowfile-attribute</value>
+      </property>
+      <property>
+        <name>Return Type</name>
+        <value>auto-detect</value>
+      </property>
+      <property>
+        <name>Path Not Found Behavior</name>
+        <value>ignore</value>
+      </property>
+      <property>
+        <name>Null Value Representation</name>
+        <value>empty string</value>
+      </property>
+      <property>
+        <name>Global_New_Confirmed</name>
+        <value>$.Global.NewConfirmed</value>
+      </property>
+      <property>
+        <name>Global_Total_COnfirmed</name>
+        <value>$.Global.TotalConfirmed</value>
+      </property>
+      <property>
+        <name>Global_New_Deaths</name>
+        <value>$.Global.NewDeaths</value>
+      </property>
+      <property>
+        <name>Global_Total_Deaths</name>
+        <value>$.Global.TotalDeaths</value>
+      </property>
+      <property>
+        <name>Global_New_Recovered</name>
+        <value>$.Global.NewRecovered</value>
+      </property>
+      <property>
+        <name>Global_Total_Recovered</name>
+        <value>$.Global.TotalRecovered</value>
+      </property>
+      <autoTerminatedRelationship>failure</autoTerminatedRelationship>
+      <autoTerminatedRelationship>unmatched</autoTerminatedRelationship>
+    </processor>
+    <processor>
+      <id>096ea562-0176-1000-d627-5a7454cf11cd</id>
+      <name>PutHDFS</name>
+      <position x="72.0" y="864.0"/>
+      <styles/>
+      <comment/>
+      <class>org.apache.nifi.processors.hadoop.PutHDFS</class>
+      <bundle>
+        <group>org.apache.nifi</group>
+        <artifact>nifi-hadoop-nar</artifact>
+        <version>1.10.0</version>
+      </bundle>
+      <maxConcurrentTasks>1</maxConcurrentTasks>
+      <schedulingPeriod>0 sec</schedulingPeriod>
+      <penalizationPeriod>30 sec</penalizationPeriod>
+      <yieldPeriod>1 sec</yieldPeriod>
+      <bulletinLevel>WARN</bulletinLevel>
+      <lossTolerant>false</lossTolerant>
+      <scheduledState>STOPPED</scheduledState>
+      <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+      <executionNode>ALL</executionNode>
+      <runDurationNanos>0</runDurationNanos>
+      <property>
+        <name>Hadoop Configuration Resources</name>
+        <value>/home/ubuntu/hadoop-3.2.1/etc/hadoop/core-site.xml,/home/ubuntu/hadoop-3.2.1/etc/hadoop/hdfs-site.xml,/home/ubuntu/hadoop-3.2.1/etc/hadoop/mapred-site.xml,/home/ubuntu/hadoop-3.2.1/etc/hadoop/yarn-site.xml</value>
+      </property>
+      <property>
+        <name>kerberos-credentials-service</name>
+      </property>
+      <property>
+        <name>Kerberos Principal</name>
+      </property>
+      <property>
+        <name>Kerberos Keytab</name>
+      </property>
+      <property>
+        <name>Kerberos Relogin Period</name>
+        <value>4 hours</value>
+      </property>
+      <property>
+        <name>Additional Classpath Resources</name>
+      </property>
+      <property>
+        <name>Directory</name>
+        <value>/dezyre/corona_data</value>
+      </property>
+      <property>
+        <name>Conflict Resolution Strategy</name>
+        <value>replace</value>
+      </property>
+      <property>
+        <name>Block Size</name>
+      </property>
+      <property>
+        <name>IO Buffer Size</name>
+      </property>
+      <property>
+        <name>Replication</name>
+      </property>
+      <property>
+        <name>Permissions umask</name>
+      </property>
+      <property>
+        <name>Remote Owner</name>
+      </property>
+      <property>
+        <name>Remote Group</name>
+      </property>
+      <property>
+        <name>Compression codec</name>
+        <value>NONE</value>
+      </property>
+      <property>
+        <name>Ignore Locality</name>
+        <value>false</value>
+      </property>
+      <autoTerminatedRelationship>success</autoTerminatedRelationship>
+      <autoTerminatedRelationship>failure</autoTerminatedRelationship>
+    </processor>
+    <processor>
+      <id>52251b12-0176-1000-bd6d-19892140b503</id>
+      <name>ConsumeKafka</name>
+      <position x="3104.0" y="184.0"/>
+      <styles/>
+      <comment/>
+      <class>org.apache.nifi.processors.kafka.pubsub.ConsumeKafka</class>
+      <bundle>
+        <group>org.apache.nifi</group>
+        <artifact>nifi-kafka-0-9-nar</artifact>
+        <version>1.10.0</version>
+      </bundle>
+      <maxConcurrentTasks>1</maxConcurrentTasks>
+      <schedulingPeriod>0 sec</schedulingPeriod>
+      <penalizationPeriod>30 sec</penalizationPeriod>
+      <yieldPeriod>1 sec</yieldPeriod>
+      <bulletinLevel>WARN</bulletinLevel>
+      <lossTolerant>false</lossTolerant>
+      <scheduledState>STOPPED</scheduledState>
+      <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+      <executionNode>ALL</executionNode>
+      <runDurationNanos>0</runDurationNanos>
+      <property>
+        <name>bootstrap.servers</name>
+        <value>localhost:9092</value>
+      </property>
+      <property>
+        <name>security.protocol</name>
+        <value>PLAINTEXT</value>
+      </property>
+      <property>
+        <name>sasl.kerberos.service.name</name>
+      </property>
+      <property>
+        <name>ssl.context.service</name>
+      </property>
+      <property>
+        <name>topic</name>
+        <value>dezyre_out</value>
+      </property>
+      <property>
+        <name>group.id</name>
+        <value>dezyre_group11</value>
+      </property>
+      <property>
+        <name>auto.offset.reset</name>
+        <value>earliest</value>
+      </property>
+      <property>
+        <name>key-attribute-encoding</name>
+        <value>utf-8</value>
+      </property>
+      <property>
+        <name>message-demarcator</name>
+      </property>
+      <property>
+        <name>max.poll.records</name>
+        <value>10000</value>
+      </property>
+      <property>
+        <name>max-uncommit-offset-wait</name>
+        <value>1 secs</value>
+      </property>
+    </processor>
+    <connection>
+      <id>09d54917-0176-1000-4b87-4970724a8a36</id>
+      <name/>
+      <bendPoints/>
+      <labelIndex>1</labelIndex>
+      <zIndex>0</zIndex>
+      <sourceId>09bbf144-0176-1000-ce23-d6817a53fcc3</sourceId>
+      <sourceGroupId>567264e6-0175-1000-96f3-0123db40889f</sourceGroupId>
+      <sourceType>PROCESSOR</sourceType>
+      <destinationId>096ea562-0176-1000-d627-5a7454cf11cd</destinationId>
+      <destinationGroupId>567264e6-0175-1000-96f3-0123db40889f</destinationGroupId>
+      <destinationType>PROCESSOR</destinationType>
+      <relationship>merged</relationship>
+      <maxWorkQueueSize>10000</maxWorkQueueSize>
+      <maxWorkQueueDataSize>1 GB</maxWorkQueueDataSize>
+      <flowFileExpiration>0 sec</flowFileExpiration>
+      <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+      <partitioningAttribute/>
+      <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+    </connection>
+    <connection>
+      <id>090154e2-0176-1000-12c3-3dc0e337cf60</id>
+      <name/>
+      <bendPoints/>
+      <labelIndex>1</labelIndex>
+      <zIndex>0</zIndex>
+      <sourceId>08fc78b0-0176-1000-d756-2878f2b03856</sourceId>
+      <sourceGroupId>567264e6-0175-1000-96f3-0123db40889f</sourceGroupId>
+      <sourceType>PROCESSOR</sourceType>
+      <destinationId>0900ca80-0176-1000-2bf3-040a173d147e</destinationId>
+      <destinationGroupId>567264e6-0175-1000-96f3-0123db40889f</destinationGroupId>
+      <destinationType>PROCESSOR</destinationType>
+      <relationship>success</relationship>
+      <maxWorkQueueSize>10000</maxWorkQueueSize>
+      <maxWorkQueueDataSize>1 GB</maxWorkQueueDataSize>
+      <flowFileExpiration>0 sec</flowFileExpiration>
+      <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+      <partitioningAttribute/>
+      <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+    </connection>
+    <connection>
+      <id>5229c77c-0176-1000-8ea6-94b4c5786b93</id>
+      <name/>
+      <bendPoints/>
+      <labelIndex>1</labelIndex>
+      <zIndex>0</zIndex>
+      <sourceId>52251b12-0176-1000-bd6d-19892140b503</sourceId>
+      <sourceGroupId>567264e6-0175-1000-96f3-0123db40889f</sourceGroupId>
+      <sourceType>PROCESSOR</sourceType>
+      <destinationId>5227e73b-0176-1000-dfd8-0d679182baac</destinationId>
+      <destinationGroupId>567264e6-0175-1000-96f3-0123db40889f</destinationGroupId>
+      <destinationType>PROCESSOR</destinationType>
+      <relationship>success</relationship>
+      <maxWorkQueueSize>10000</maxWorkQueueSize>
+      <maxWorkQueueDataSize>1 GB</maxWorkQueueDataSize>
+      <flowFileExpiration>0 sec</flowFileExpiration>
+      <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+      <partitioningAttribute/>
+      <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+    </connection>
+    <connection>
+      <id>044167ab-0176-1000-43c9-4f14a9560899</id>
+      <name/>
+      <bendPoints/>
+      <labelIndex>1</labelIndex>
+      <zIndex>0</zIndex>
+      <sourceId>faa1137a-0175-1000-af25-78e188249f3a</sourceId>
+      <sourceGroupId>567264e6-0175-1000-96f3-0123db40889f</sourceGroupId>
+      <sourceType>PROCESSOR</sourceType>
+      <destinationId>0440b2a4-0176-1000-a5ab-0a4a7cd94ec3</destinationId>
+      <destinationGroupId>567264e6-0175-1000-96f3-0123db40889f</destinationGroupId>
+      <destinationType>PROCESSOR</destinationType>
+      <relationship>matched</relationship>
+      <maxWorkQueueSize>10000</maxWorkQueueSize>
+      <maxWorkQueueDataSize>1 GB</maxWorkQueueDataSize>
+      <flowFileExpiration>0 sec</flowFileExpiration>
+      <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+      <partitioningAttribute/>
+      <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+    </connection>
+    <connection>
+      <id>0f87077e-0176-1000-c0b1-d18e6781e579</id>
+      <name/>
+      <bendPoints/>
+      <labelIndex>1</labelIndex>
+      <zIndex>0</zIndex>
+      <sourceId>0947d956-0176-1000-d9d0-d0aa80c63973</sourceId>
+      <sourceGroupId>567264e6-0175-1000-96f3-0123db40889f</sourceGroupId>
+      <sourceType>PROCESSOR</sourceType>
+      <destinationId>0f8339ec-0176-1000-a621-bbf34f99b7c2</destinationId>
+      <destinationGroupId>567264e6-0175-1000-96f3-0123db40889f</destinationGroupId>
+      <destinationType>PROCESSOR</destinationType>
+      <relationship>success</relationship>
+      <maxWorkQueueSize>10000</maxWorkQueueSize>
+      <maxWorkQueueDataSize>1 GB</maxWorkQueueDataSize>
+      <flowFileExpiration>0 sec</flowFileExpiration>
+      <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+      <partitioningAttribute/>
+      <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+    </connection>
+    <connection>
+      <id>08eb6c7b-0176-1000-117e-be59e5c9eb55</id>
+      <name/>
+      <bendPoints/>
+      <labelIndex>1</labelIndex>
+      <zIndex>0</zIndex>
+      <sourceId>0440b2a4-0176-1000-a5ab-0a4a7cd94ec3</sourceId>
+      <sourceGroupId>567264e6-0175-1000-96f3-0123db40889f</sourceGroupId>
+      <sourceType>PROCESSOR</sourceType>
+      <destinationId>08ea52bd-0176-1000-3fad-1b81e2a812ce</destinationId>
+      <destinationGroupId>567264e6-0175-1000-96f3-0123db40889f</destinationGroupId>
+      <destinationType>PROCESSOR</destinationType>
+      <relationship>split</relationship>
+      <maxWorkQueueSize>10000</maxWorkQueueSize>
+      <maxWorkQueueDataSize>1 GB</maxWorkQueueDataSize>
+      <flowFileExpiration>0 sec</flowFileExpiration>
+      <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+      <partitioningAttribute/>
+      <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+    </connection>
+    <connection>
+      <id>5255184c-0176-1000-1332-aadf505e5305</id>
+      <name/>
+      <bendPoints/>
+      <labelIndex>1</labelIndex>
+      <zIndex>0</zIndex>
+      <sourceId>525449e8-0176-1000-4ad2-f50ce644e679</sourceId>
+      <sourceGroupId>567264e6-0175-1000-96f3-0123db40889f</sourceGroupId>
+      <sourceType>PROCESSOR</sourceType>
+      <destinationId>523bb255-0176-1000-039b-b2acb661c456</destinationId>
+      <destinationGroupId>567264e6-0175-1000-96f3-0123db40889f</destinationGroupId>
+      <destinationType>PROCESSOR</destinationType>
+      <relationship>merged</relationship>
+      <maxWorkQueueSize>10000</maxWorkQueueSize>
+      <maxWorkQueueDataSize>1 GB</maxWorkQueueDataSize>
+      <flowFileExpiration>0 sec</flowFileExpiration>
+      <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+      <partitioningAttribute/>
+      <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+    </connection>
+    <connection>
+      <id>fa95d5c3-0175-1000-1e44-223464c066b0</id>
+      <name>success</name>
+      <bendPoints/>
+      <labelIndex>1</labelIndex>
+      <zIndex>0</zIndex>
+      <sourceId>fa819b9b-0175-1000-5a0b-abb6605a35a8</sourceId>
+      <sourceGroupId>567264e6-0175-1000-96f3-0123db40889f</sourceGroupId>
+      <sourceType>PROCESSOR</sourceType>
+      <destinationId>fa95593f-0175-1000-df7e-04a6bea4dda6</destinationId>
+      <destinationGroupId>567264e6-0175-1000-96f3-0123db40889f</destinationGroupId>
+      <destinationType>PROCESSOR</destinationType>
+      <relationship>success</relationship>
+      <maxWorkQueueSize>10000</maxWorkQueueSize>
+      <maxWorkQueueDataSize>1 GB</maxWorkQueueDataSize>
+      <flowFileExpiration>0 sec</flowFileExpiration>
+      <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+      <partitioningAttribute/>
+      <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+    </connection>
+    <connection>
+      <id>0952f213-0176-1000-0d0a-f3de5c8b86d8</id>
+      <name/>
+      <bendPoints/>
+      <labelIndex>1</labelIndex>
+      <zIndex>0</zIndex>
+      <sourceId>0900ca80-0176-1000-2bf3-040a173d147e</sourceId>
+      <sourceGroupId>567264e6-0175-1000-96f3-0123db40889f</sourceGroupId>
+      <sourceType>PROCESSOR</sourceType>
+      <destinationId>0947d956-0176-1000-d9d0-d0aa80c63973</destinationId>
+      <destinationGroupId>567264e6-0175-1000-96f3-0123db40889f</destinationGroupId>
+      <destinationType>PROCESSOR</destinationType>
+      <relationship>success</relationship>
+      <maxWorkQueueSize>10000</maxWorkQueueSize>
+      <maxWorkQueueDataSize>1 GB</maxWorkQueueDataSize>
+      <flowFileExpiration>0 sec</flowFileExpiration>
+      <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+      <partitioningAttribute/>
+      <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+    </connection>
+    <connection>
+      <id>08feac5c-0176-1000-3d5b-f096d2d929a2</id>
+      <name/>
+      <bendPoints/>
+      <labelIndex>1</labelIndex>
+      <zIndex>0</zIndex>
+      <sourceId>08ea52bd-0176-1000-3fad-1b81e2a812ce</sourceId>
+      <sourceGroupId>567264e6-0175-1000-96f3-0123db40889f</sourceGroupId>
+      <sourceType>PROCESSOR</sourceType>
+      <destinationId>08fc78b0-0176-1000-d756-2878f2b03856</destinationId>
+      <destinationGroupId>567264e6-0175-1000-96f3-0123db40889f</destinationGroupId>
+      <destinationType>PROCESSOR</destinationType>
+      <relationship>matched</relationship>
+      <maxWorkQueueSize>10000</maxWorkQueueSize>
+      <maxWorkQueueDataSize>1 GB</maxWorkQueueDataSize>
+      <flowFileExpiration>0 sec</flowFileExpiration>
+      <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+      <partitioningAttribute/>
+      <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+    </connection>
+    <connection>
+      <id>52339eeb-0176-1000-6870-3dd282d53b7a</id>
+      <name/>
+      <bendPoints/>
+      <labelIndex>1</labelIndex>
+      <zIndex>0</zIndex>
+      <sourceId>5227e73b-0176-1000-dfd8-0d679182baac</sourceId>
+      <sourceGroupId>567264e6-0175-1000-96f3-0123db40889f</sourceGroupId>
+      <sourceType>PROCESSOR</sourceType>
+      <destinationId>5231a285-0176-1000-e956-e5a4d550dd7f</destinationId>
+      <destinationGroupId>567264e6-0175-1000-96f3-0123db40889f</destinationGroupId>
+      <destinationType>PROCESSOR</destinationType>
+      <relationship>matched</relationship>
+      <maxWorkQueueSize>10000</maxWorkQueueSize>
+      <maxWorkQueueDataSize>1 GB</maxWorkQueueDataSize>
+      <flowFileExpiration>0 sec</flowFileExpiration>
+      <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+      <partitioningAttribute/>
+      <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+    </connection>
+    <connection>
+      <id>faa20721-0175-1000-6551-e9ec16c7eb68</id>
+      <name>Original Response</name>
+      <bendPoints/>
+      <labelIndex>1</labelIndex>
+      <zIndex>0</zIndex>
+      <sourceId>fa95593f-0175-1000-df7e-04a6bea4dda6</sourceId>
+      <sourceGroupId>567264e6-0175-1000-96f3-0123db40889f</sourceGroupId>
+      <sourceType>PROCESSOR</sourceType>
+      <destinationId>faa1137a-0175-1000-af25-78e188249f3a</destinationId>
+      <destinationGroupId>567264e6-0175-1000-96f3-0123db40889f</destinationGroupId>
+      <destinationType>PROCESSOR</destinationType>
+      <relationship>Original</relationship>
+      <maxWorkQueueSize>10000</maxWorkQueueSize>
+      <maxWorkQueueDataSize>1 GB</maxWorkQueueDataSize>
+      <flowFileExpiration>0 sec</flowFileExpiration>
+      <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+      <partitioningAttribute/>
+      <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+    </connection>
+    <connection>
+      <id>5254f165-0176-1000-da3f-425984c43c35</id>
+      <name/>
+      <bendPoints/>
+      <labelIndex>1</labelIndex>
+      <zIndex>0</zIndex>
+      <sourceId>5231a285-0176-1000-e956-e5a4d550dd7f</sourceId>
+      <sourceGroupId>567264e6-0175-1000-96f3-0123db40889f</sourceGroupId>
+      <sourceType>PROCESSOR</sourceType>
+      <destinationId>525449e8-0176-1000-4ad2-f50ce644e679</destinationId>
+      <destinationGroupId>567264e6-0175-1000-96f3-0123db40889f</destinationGroupId>
+      <destinationType>PROCESSOR</destinationType>
+      <relationship>success</relationship>
+      <maxWorkQueueSize>10000</maxWorkQueueSize>
+      <maxWorkQueueDataSize>1 GB</maxWorkQueueDataSize>
+      <flowFileExpiration>0 sec</flowFileExpiration>
+      <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+      <partitioningAttribute/>
+      <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+    </connection>
+    <connection>
+      <id>09d5229e-0176-1000-e9f9-906f11a79fb1</id>
+      <name/>
+      <bendPoints/>
+      <labelIndex>1</labelIndex>
+      <zIndex>0</zIndex>
+      <sourceId>0947d956-0176-1000-d9d0-d0aa80c63973</sourceId>
+      <sourceGroupId>567264e6-0175-1000-96f3-0123db40889f</sourceGroupId>
+      <sourceType>PROCESSOR</sourceType>
+      <destinationId>09bbf144-0176-1000-ce23-d6817a53fcc3</destinationId>
+      <destinationGroupId>567264e6-0175-1000-96f3-0123db40889f</destinationGroupId>
+      <destinationType>PROCESSOR</destinationType>
+      <relationship>success</relationship>
+      <maxWorkQueueSize>10000</maxWorkQueueSize>
+      <maxWorkQueueDataSize>1 GB</maxWorkQueueDataSize>
+      <flowFileExpiration>0 sec</flowFileExpiration>
+      <loadBalanceStrategy>DO_NOT_LOAD_BALANCE</loadBalanceStrategy>
+      <partitioningAttribute/>
+      <loadBalanceCompression>DO_NOT_COMPRESS</loadBalanceCompression>
+    </connection>
+    <controllerService>
+      <id>084c080a-0176-1000-bcc0-c9ae68dae256</id>
+      <name>StandardRestrictedSSLContextService</name>
+      <comment/>
+      <class>org.apache.nifi.ssl.StandardRestrictedSSLContextService</class>
+      <bundle>
+        <group>org.apache.nifi</group>
+        <artifact>nifi-ssl-context-service-nar</artifact>
+        <version>1.10.0</version>
+      </bundle>
+      <enabled>false</enabled>
+      <property>
+        <name>Keystore Filename</name>
+      </property>
+      <property>
+        <name>Keystore Password</name>
+      </property>
+      <property>
+        <name>key-password</name>
+      </property>
+      <property>
+        <name>Keystore Type</name>
+      </property>
+      <property>
+        <name>Truststore Filename</name>
+      </property>
+      <property>
+        <name>Truststore Password</name>
+      </property>
+      <property>
+        <name>Truststore Type</name>
+      </property>
+      <property>
+        <name>SSL Protocol</name>
+        <value>TLS</value>
+      </property>
+    </controllerService>
+  </rootGroup>
+  <controllerServices/>
+  <reportingTasks/>
+</flowController>
